@@ -1,0 +1,12 @@
+name: Build
+
+on: push
+
+jobs:
+  buid:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@main
+      - name: Build
+        run: ./build.sh

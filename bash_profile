@@ -1,0 +1,2 @@
+startx &> /dev/null
+logout
