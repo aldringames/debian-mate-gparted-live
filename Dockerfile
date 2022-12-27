@@ -35,7 +35,7 @@ RUN apt-get install -qqy \
     xinit \
     pulseaudio \
     gparted \
-    live-booy \
+    live-boot \
     epiphany-browser \
     systemd-sysv \
     emacs \
@@ -63,7 +63,6 @@ RUN apt-get install -qqy \
     resolvconf && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
-  ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf && \
   dpkg-reconfigure resolvconf
 
 RUN mkdir -p /etc/systemd/system/getty@tty1.service.d
