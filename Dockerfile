@@ -63,10 +63,9 @@ RUN apt-get install -qqy \
     resolvconf \
     initramfs-tools && \
   apt-get install -qqy --no-install-recommends linux-image-amd64 && \
+  dpkg-reconfigure --frontend=noninteractive resolvconf && \
   apt-get clean && \
-  rm -rf /var/lib/apt/lists/* && \
-  dpkg-reconfigure resolvconf
-
+  rm -rf /var/lib/apt/lists/* 
 RUN mkdir -p /etc/systemd/system/getty@tty1.service.d
 COPY override.conf /etc/systemd/system/getty@tty1.service.d/override.conf
 COPY bash_profile /root/.bash_profile
