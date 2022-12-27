@@ -62,7 +62,7 @@ RUN apt-get install -qqy && \
     resolvconf && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
-  ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+  ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf && \
   dpkg-reconfigure resolvconf
 
 RUN mkdir -p /etc/systemd/system/getty@tty1.service.d
