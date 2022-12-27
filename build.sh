@@ -1,4 +1,4 @@
 #!/bin/bash -e
-mkdir /chroot
-docker build -t debian-intrap .
-docker cp debian-intrap:/* /chroot/
+sudo mkdir /chroot
+sudo docker build -t debian-intrap .
+sudo docker cp debian-intrap:/* /chroot/
