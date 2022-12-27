@@ -1,5 +1,5 @@
 #!/bin/bash -e
-sudo mkdir /chroot
-sudo docker build -t debian-intrap .
-CID=$(sudo docker create debian-intrap)
-sudo docker export $CID | sudo tar -xf- -C /chroot
+mkdir -p $HIME/live/chroot
+docker build -t debian-intrap .
+CID=(docker create debian-intrap)
+docker export $CID | sudo tar -xf- -C $HOME/live/chroot
