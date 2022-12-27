@@ -45,7 +45,7 @@ RUN apt-get install -qqy \
     dbus \
     dbus-x11 \
     dosfstools \
-    firmware-linux \
+    firmware-linux-free \
     gddrescue \
     fdisk \
     gdisk \
@@ -60,7 +60,9 @@ RUN apt-get install -qqy \
     vim-gtk3 \
     wimtools \
     nano \
-    resolvconf && \
+    resolvconf \
+    initramfs-tools && \
+  apt-get install -qqy --no-install-recommends linux-image-amd64 && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
   dpkg-reconfigure resolvconf
