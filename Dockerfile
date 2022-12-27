@@ -7,7 +7,8 @@ COPY hostname /etc/hostname
 
 RUN apt-get update -qqy && \
   apt-get upgrade -qqy && \
-  apt-get install -qqy && \
+  apt-get install -qqy \
+    apt-utils \
     file \
     ca-certificates \
     sudo \
