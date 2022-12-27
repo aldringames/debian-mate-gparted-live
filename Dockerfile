@@ -60,10 +60,8 @@ RUN apt-get install -qqy \
     vim-gtk3 \
     wimtools \
     nano \
-    resolvconf \
     initramfs-tools && \
   apt-get install -qqy --no-install-recommends linux-image-amd64 && \
-  dpkg-reconfigure --frontend=noninteractive resolvconf && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* 
 RUN mkdir -p /etc/systemd/system/getty@tty1.service.d
