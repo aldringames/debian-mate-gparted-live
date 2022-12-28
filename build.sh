@@ -1,4 +1,5 @@
 #!/bin/bash -e
+WORK=$HOME/work/debian-mate-gparted-live
 mkdir -p $HOME/live/chroot
 echo "Building docker container id..."
 docker build -t debian-intrap . &> /dev/null
@@ -14,5 +15,5 @@ mksquashfs chroot prod/live/filesystem.squashfs &> /dev/null
 printf $(sudo du -sx --block-size=1 chroot | cut -f1) > prod/live/filesystem.size
 echo "Converting Arial font to pf2 as grub font..."
 grub-mkfont -o prod/live/arial.pf2 -s 15 $HOME/debian-mate-gparted-live/arial.ttf &> /dev/null
-cp $HOME/debian-mate-gparted-live/splash.png prod/live/
+cp $WORK/debian-mate-gparted-live/splash.png prod/live/
 sudo chroot chroot
