@@ -1,5 +1,4 @@
 #!/bin/sh -e
-xrandr -s `xdpyinfo | grep "dimensions" | awk '{ print $2 }'`
-pulseaudio --start
-pactl set-sink-volume 0 100%
+_dimension=`xdpyinfo | grep "dimensions" | awk '{ print $2 }'`
+xrandr -s ${_dimension}
 mate-session

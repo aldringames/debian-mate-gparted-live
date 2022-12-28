@@ -11,8 +11,6 @@ RUN apt-get update -qqy && \
     apt-utils \
     file \
     ca-certificates \
-    sudo \
-    check \
     tzdata \
     locales \
     uuid-runtime \
@@ -33,7 +31,6 @@ RUN apt-get install -qqy \
     mate-desktop-environment-extras \
     xorg \
     xinit \
-    pulseaudio \
     gparted \
     live-boot \
     epiphany-browser \

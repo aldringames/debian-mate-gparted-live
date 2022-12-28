@@ -11,3 +11,6 @@ mkdir -p $HOME/live/prod/{EFI/boot,boot/grub/x86_64-efi,live}
 echo "Compressing chroot and printing filesystem size..."
 mksquashfs chroot prod/live/filesystem.squashfs &> /dev/null
 printf $(sudo du -sx --block-size=1 chroot | cut -f1) > prod/live/filesystem.size
+echo "Creating filesystem.packages from installed packages on chroot..."
+sudo chroot chroot 'dpkg --get-selections | grep -w "install" | cut -f1' > prod/live/filesystem.packages
+cat prod/live/filesystem.packages
