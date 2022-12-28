@@ -2,9 +2,6 @@ FROM debian:sid
 
 ENV DEBIAN_FRONTEND noninteractive
 
-COPY hosts /etc/hosts
-COPY hostname /etc/hostname
-
 RUN apt-get update -qqy && \
   apt-get upgrade -qqy && \
   apt-get install -qqy \
@@ -60,8 +57,4 @@ RUN apt-get install -qqy \
     initramfs-tools && \
   apt-get install -qqy --no-install-recommends linux-image-amd64 && \
   apt-get clean && \
-  rm -rf /var/lib/apt/lists/* 
-RUN mkdir -p /etc/systemd/system/getty@tty1.service.d
-COPY override.conf /etc/systemd/system/getty@tty1.service.d/override.conf
-COPY bash_profile /root/.bash_profile
-COPY xinitrc /root/.xinitrc
+  rm -rf /var/lib/apt/lists/*
