@@ -54,6 +54,10 @@ RUN apt-get install -qqy \
     vim-gtk3 \
     wimtools \
     nano \
+    wpagui \
+    memtester \
+    cpu-x \
+    gnome-disk-utility \
     initramfs-tools && \
   apt-get install -qqy --no-install-recommends linux-image-amd64 && \
   apt-get clean && \

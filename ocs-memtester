@@ -1,0 +1,67 @@
+#!/bin/bash -e
+_check_memory () {
+	clear
+	echo "Check memory for 128M..."
+	memtester 128M 5 &> /dev/null
+	echo "Check memory for 256M..."
+        memtester 256M 5 &> /dev/null
+	echo "Check memory for 512M..."
+        memtester 512M 5 &> /dev/null
+	echo "Check memory for 1024M..."
+        memtester 1024M 5 &> /dev/null
+	echo "Check memory for 2048M..."
+        memtester 2048M 5 &> /dev/null
+	_menu
+}
+
+_check_memory_init_process () {
+        clear
+        echo "Check memory for 128M..."
+        memtester 128M 5 &> /dev/null
+        echo "Check memory for 256M..."
+        memtester 256M 5 &> /dev/null
+        echo "Check memory for 512M..."
+        memtester 512M 5 &> /dev/null
+        echo "Check memory for 1024M..."
+        memtester 1024M 5 &> /dev/null
+        echo "Check memory for 2048M..."
+        memtester 2048M 5 &> /dev/null
+        _init_process
+}
+
+_init_process () {
+        clear
+        echo "Please wait..."
+        exec /sbin/init
+}
+
+_menu () {
+	clear
+	echo ""
+	echo "Debian MATE GParted Live OCS Memtester Menu"
+	echo ""
+	echo "    (1) Memtester"
+	echo "        Start memory checking only"
+	echo ""
+        echo "    (2) Memtester and Init"
+        echo "        Start memory checking and run init process"
+	echo ""
+        echo "    (3) Init"
+        echo "        Run init process"
+	echo ""
+	printf "Choose option: "
+	read _choice
+	if [ "$_choice" = "1" ]; then
+		_check_memory
+	elif [ "$_choice" = "2" ]; then
+		_check_memory_init_process
+	elif [ "$_choice" = "3" ]; then
+                _init_process
+	else
+		echo "Invalid option: $_choice"
+		sleep 1
+		_menu
+	fi
+}
+
+_menu
