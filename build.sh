@@ -12,10 +12,10 @@ mkdir -p $HOME/live/prod/{EFI/boot,boot/grub/x86_64-efi,live}
 echo "Copying override.conf to chroot/etc/systemd/system/getty@tty1.service.d/..."
 mkdir -p chroot/etc/systemd/system/getty@tty1.service.d
 cp -f $WORK/override.conf chroot/etc/systemd/system/getty@tty1.service.d/
-for host in hosts hostname; do
-	echo "Copying $host to chroot/etc/..."
-	cp -f $WORK/$host chroot/etc/
-done
+echo "Creating hostnane as intrap..."
+echo "intrap" > chroot/etc/hostname
+echo "Copying hosts to chroot/etc/..."
+cp $WORK/hosts chroot/etc/hosts
 for file in bash_profile xinitrc; do
 	echo "Copying $file to chroot/root/..."
 	cp -f $WORK/$file chroot/root/.$file
@@ -26,4 +26,6 @@ mksquashfs chroot prod/live/filesystem.squashfs &> /dev/null
 printf $(sudo du -sx --block-size=1 chroot | cut -f1) > prod/live/filesystem.size
 echo "Converting Arial font to pf2 as grub font..."
 grub-mkfont -o prod/live/arial.pf2 -s 15 $WORK/arial.ttf &> /dev/null
+echo "Copying splash.png to prod/live/..."
 cp $WORK/splash.png prod/live/
+sudo chroot chroot
