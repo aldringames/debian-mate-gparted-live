@@ -36,7 +36,6 @@ RUN apt-get install -qqy \
     geany \
     bash-completion \
     cifs-utils \
-    dbus \
     dbus-x11 \
     dosfstools \
     firmware-linux-free \
@@ -60,6 +59,8 @@ RUN apt-get install -qqy \
     gnome-disk-utility \
     network-manager-gnome \
     p7zip-full \
+    pv \
+    cgpt \
     initramfs-tools && \
   apt-get install -qqy --no-install-recommends linux-image-amd64 && \
   apt-get clean && \

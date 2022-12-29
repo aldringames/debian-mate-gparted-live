@@ -6,9 +6,10 @@ docker build -t debian-intrap . &> /dev/null
 CID=$(docker create debian-intrap)
 echo "Extracting files from docker container id export..."
 docker export $CID | tar -xf- -C $HOME/live/chroot &> /dev/null
-sudo apt-get install -qqy squashfs-tools xorriso isolinux syslinux-common grub-pc-bin grub-efi-amd64-bin mtools dosfstools
+echo "Install packages for making iso..."
+sudo apt-get install -qqy squashfs-tools xorriso isolinux syslinux-common grub-pc-bin grub-efi-amd64-bin mtools dosfstools &> /dev/null
 cd $HOME/live
-mkdir -p $HOME/live/prod/{EFI/boot,boot/grub/x86_64-efi,live}
+mkdir -p $HOME/live/{prod/{EFI/boot,boot/grub/x86_64-efi,isolinux,live},tmp}
 touch prod/debian
 echo "Copying override.conf to chroot/etc/systemd/system/getty@tty1.service.d/..."
 mkdir -p chroot/etc/systemd/system/getty@tty1.service.d
@@ -30,7 +31,16 @@ echo "Converting Arial font to pf2 as grub font..."
 grub-mkfont -o prod/live/arial.pf2 -s 15 $WORK/arial.ttf &> /dev/null
 echo "Copying splash.png to prod/live/..."
 cp $WORK/splash.png prod/live/
-cat prod/live/filesystem.size
 echo "Copying vmlinuz and initrd to prod/live/..."
 cp chroot/boot/vmlinuz-* prod/live/vmlinuz
 cp chroot/boot/initrd.img-* prod/live/initrd
+echo "Downloading UEFI Shell and copying to prod/live/..."
+wget -qO prod/live/shellx64.efi https://github.com/retrage/edk2-nightly/raw/master/bin/RELEASEX64_Shell.efi
+echo "Preparing to clone memtest86+ repository..."
+git clone --depth=1 https://github.com/memtest86plus/memtest86plus.git &> /dev/null
+echo "Building memtest86+ binaries..."
+make -C memtest86plus/build64 -j$(nproc) all &> /dev/null
+echo "Copying memtest86+ binaries to prod/live/..."
+ls
+ls memtest86plus
+ls memtest86plus/build64
