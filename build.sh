@@ -30,6 +30,7 @@ echo "Converting Arial font to pf2 as grub font..."
 grub-mkfont -o prod/live/arial.pf2 -s 15 $WORK/arial.ttf &> /dev/null
 echo "Copying splash.png to prod/live/..."
 cp $WORK/splash.png prod/live/
+cat prod/live/filesystem.size
 echo "Copying vmlinuz and initrd to prod/live/..."
 cp chroot/boot/vmlinuz-* prod/live/vmlinuz
 cp chroot/boot/initrd.img-* prod/live/initrd

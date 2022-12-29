@@ -58,6 +58,8 @@ RUN apt-get install -qqy \
     memtester \
     cpu-x \
     gnome-disk-utility \
+    network-manager-gnome \
+    p7zip-full \
     initramfs-tools && \
   apt-get install -qqy --no-install-recommends linux-image-amd64 && \
   apt-get clean && \
