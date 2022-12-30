@@ -101,6 +101,3 @@ md5sum $HOME/live/debian-mate-gparted-live-${_date}.iso > output/debian-mate-gpa
 echo "Cleaning chroot files..."
 rm -rf chroot
 echo "DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
-cd $HOME/live/output
-echo "Build complete! The ISO file used:"
-ls -lah
