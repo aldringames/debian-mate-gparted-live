@@ -42,7 +42,7 @@ cp $WORK/splash.png prod/live/
 echo "Copying vmlinuz and initrd to prod/live/..."
 cp chroot/boot/vmlinuz-* prod/live/vmlinuz
 cp chroot/boot/initrd.img-* prod/live/initrd
-echo "Downloading UEFI Shell and copying to prod/live/..."
+echo "Downloading UEFI Shell to prod/live/..."
 wget -qO prod/live/shellx64.efi https://github.com/retrage/edk2-nightly/raw/master/bin/RELEASEX64_Shell.efi
 echo "Preparing to clone memtest86+ repository..."
 git clone --depth=1 https://github.com/memtest86plus/memtest86plus.git &> /dev/null
@@ -51,3 +51,50 @@ make -C memtest86plus/build64 -j$(nproc) all &> /dev/null
 echo "Copying memtest86+ binaries to prod/live/..."
 cp memtest86plus/build64/memtest.bin prod/live/memtest86+
 cp memtest86plus/build64/memtest.efi prod/live/memtest86+.efi
+echo "Copying boot configs..."
+cp $WORK/grub.cfg $HOME/live/prod/boot/grub/
+cp $WORK/grub.cfg $HOME/live/tmp/
+cp $WORK/isolinux.cfg $HOME/live/prod/isolinux/
+echo "Copying boot images..."
+cp /usr/lib/ISOLINUX/isolinux.bin $HOME/live/prod/isolinux/
+cp /usr/lib/syslinux/modules/bios/*  $HOME/live/prod/isolinux/
+cp -r /usr/lib/grub/x86_64-efi/* $HOME/live/prod/boot/grub/x86_64-efi/
+echo "Creating files for GRUB UEFI..."
+cd $HOME/live/prod/EFI/boot/
+grub-mkstandalone --format=x86_64-efi \
+	          --output=$HOME/live/tmp/BOOTX64.efi \
+		  --locales="" \
+		  --fonts="" \
+		  "boot/grub/grub.cfg=$HOME/live/tmp/grub.cfg"
+dd if=/dev/zero of=efiboot.img bs=1M count=10
+mkfs.vfat efiboot.img
+mmd -i efiboot.img efi efi/boot
+mcopy -vi efiboot.img $HOME/live/tmp/BOOTX64.efi ::efi/boot/
+_datestamp="$(date +%Y%m%d)"
+echo "Creating ISO, please it may take a while..."
+cd $HOME/live/
+xorriso \
+    -as mkisofs \
+    -iso-level 3 \
+    -o "$HOME/live/debian-mate-gparted-live-${_datestamp}.iso" \
+    -full-iso9660-filenames \
+    -volid "Debian MATE GParted Live" \
+    -isohybrid-mbr /usr/lib/ISOLINUX/isohdpfx.bin \
+    -eltorito-boot \
+        isolinux/isolinux.bin \
+        -no-emul-boot \
+        -boot-load-size 4 \
+        -boot-info-table \
+        --eltorito-catalog isolinux/isolinux.cat \
+    -eltorito-alt-boot \
+        -e /EFI/boot/efiboot.img \
+        -no-emul-boot \
+        -isohybrid-gpt-basdat \
+    -append_partition 2 0xef $HOME/live/prod/EFI/boot/efiboot.img \
+    "$HOME/live/prod/"
+echo "Copying ISO to the output/..."
+mkdir $HOME/live/output
+chmod +x $HOME/live/debian-mate-gparted-live-${_datestamp}.iso
+cp $HOME/live/debian-mate-gparted-live-${_datestamp}.iso output/
+sha256sum $HOME/live/debian-mate-gparted-live-${_datestamp}.iso > output/debian-mate-gparted-live-${_datestamp}.iso.sha256
+md5sum $HOME/live/debian-mate-gparted-live-${_datestamp}.iso > output/debian-mate-gparted-live-${_datestamp}.iso.md5sum
