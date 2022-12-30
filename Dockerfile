@@ -65,3 +65,9 @@ RUN apt-get install -qqy \
   apt-get install -qqy --no-install-recommends linux-image-amd64 && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
+
+RUN rm /etc/resolv.conf && \
+  ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+
+RUN rm /etc/machine-id && \
+  dpkg --get-selections | tee /filesystem.packages

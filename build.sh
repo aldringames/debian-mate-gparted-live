@@ -14,7 +14,7 @@ touch prod/debian
 echo "Copying override.conf to chroot/etc/systemd/system/getty@tty1.service.d/..."
 mkdir -p chroot/etc/systemd/system/getty@tty1.service.d
 cp -f $WORK/override.conf chroot/etc/systemd/system/getty@tty1.service.d/
-echo "Creating hostnane as intrap..."
+echo "Creating hostname as intrap..."
 echo "intrap" > chroot/etc/hostname
 echo "Copying hosts to chroot/etc/..."
 cp $WORK/hosts chroot/etc/hosts
@@ -27,6 +27,8 @@ cp $WORK/ocs-memtester chroot/bin/
 echo "Compressing filesystem and printing fs size from chroot..."
 mksquashfs chroot prod/live/filesystem.squashfs &> /dev/null
 printf $(sudo du -sx --block-size=1 chroot | cut -f1) > prod/live/filesystem.size
+echo "Moving filesystem.packages to prod/live/..."
+mv chroot/filesystem.packages prod/live/
 echo "Converting Arial font to pf2 as grub font..."
 grub-mkfont -o prod/live/arial.pf2 -s 15 $WORK/arial.ttf &> /dev/null
 echo "Copying splash.png to prod/live/..."
@@ -41,6 +43,6 @@ git clone --depth=1 https://github.com/memtest86plus/memtest86plus.git &> /dev/n
 echo "Building memtest86+ binaries..."
 make -C memtest86plus/build64 -j$(nproc) all &> /dev/null
 echo "Copying memtest86+ binaries to prod/live/..."
-ls
-ls memtest86plus
-ls memtest86plus/build64
+cp memtest86plus/build64/memtest.bin prod/live/memtest86+
+cp memtest86plus/build64/memtest.efi prod/live/memtest86+.efi
+
