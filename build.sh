@@ -70,13 +70,13 @@ dd if=/dev/zero of=efiboot.img bs=1M count=10 &> /dev/null
 mkfs.vfat efiboot.img &> /dev/null
 mmd -i efiboot.img efi efi/boot
 mcopy -vi efiboot.img $HOME/live/tmp/BOOTX64.efi ::efi/boot/ &> /dev/null
-_date="$(date +%Y%m%d_%H:%M)"
+_date="$(date +%Y%m%d)"
 echo "Creating ISO, please it may take a while..."
 cd $HOME/live/
 xorriso \
     -as mkisofs \
     -iso-level 3 \
-    -o "$HOME/live/debian-mate-gparted-live-${_datestamp}.iso" \
+    -o "$HOME/live/debian-mate-gparted-live-${_date}.iso" \
     -full-iso9660-filenames \
     -volid "Debian MATE GParted Live" \
     -isohybrid-mbr /usr/lib/ISOLINUX/isohdpfx.bin \
