@@ -22,8 +22,14 @@ for file in bash_profile xinitrc; do
 	echo "Copying $file to chroot/root/..."
 	cp -f $WORK/$file chroot/root/.$file
 done
-echo "Copying ocs-memtester to chroot/bin/..."
-cp $WORK/ocs-memtester chroot/bin/
+echo "Creating resolv.conf to chroot/etc/..."
+cat << EOF > chroot/etc/resolv.conf
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+nameserver 4.4.4.4
+EOF
+echo "Copying ocs-memtester to chroot/sbin/..."
+cp $WORK/ocs-memtester chroot/sbin/
 echo "Compressing filesystem and printing fs size from chroot..."
 mksquashfs chroot prod/live/filesystem.squashfs &> /dev/null
 printf $(sudo du -sx --block-size=1 chroot | cut -f1) > prod/live/filesystem.size
@@ -45,4 +51,3 @@ make -C memtest86plus/build64 -j$(nproc) all &> /dev/null
 echo "Copying memtest86+ binaries to prod/live/..."
 cp memtest86plus/build64/memtest.bin prod/live/memtest86+
 cp memtest86plus/build64/memtest.efi prod/live/memtest86+.efi
-
