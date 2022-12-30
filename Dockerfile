@@ -59,6 +59,7 @@ RUN apt-get install -qqy \
     gnome-disk-utility \
     network-manager-gnome \
     p7zip-full \
+    systemd-sysv \
     pv \
     cgpt \
     initramfs-tools && \
