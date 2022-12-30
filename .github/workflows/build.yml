@@ -10,3 +10,9 @@ jobs:
         uses: actions/checkout@main
       - name: Build
         run: ./build.sh
+      - name: Release
+        uses: softprops/action-gh-release@master
+        with:
+          name: Debian MATE GParted Live ${{ env.DATE }}
+          tag_name: ${{ env.DATE }}
+          files: output/*
