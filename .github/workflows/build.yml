@@ -15,7 +15,4 @@ jobs:
         with:
           name: Debian MATE GParted Live ${{ env.DATE }}
           tag_name: ${{ env.DATE }}
-          files: |
-            output/debian-mate-gparted-live-${{ env.DATE }}.iso
-            output/debian-mate-gparted-live-${{ env.DATE }}.iso.sha256
-            output/debian-mate-gparted-live-${{ env.DATE }}.iso.md5
+          files: output/*
