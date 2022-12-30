@@ -66,8 +66,8 @@ grub-mkstandalone --format=x86_64-efi \
 		  --locales="" \
 		  --fonts="" \
 		  "boot/grub/grub.cfg=$HOME/live/tmp/grub.cfg"
-dd if=/dev/zero of=efiboot.img bs=1M count=10
-mkfs.vfat efiboot.img
+dd if=/dev/zero of=efiboot.img bs=1M count=10 &> /dev/null
+mkfs.vfat efiboot.img &> /dev/null
 mmd -i efiboot.img efi efi/boot
 mcopy -vi efiboot.img $HOME/live/tmp/BOOTX64.efi ::efi/boot/
 _datestamp="$(date +%Y%m%d)"
@@ -91,10 +91,10 @@ xorriso \
         -no-emul-boot \
         -isohybrid-gpt-basdat \
     -append_partition 2 0xef $HOME/live/prod/EFI/boot/efiboot.img \
-    "$HOME/live/prod/"
+    "$HOME/live/prod/" &> /dev/null
 echo "Copying ISO to the output/..."
 mkdir $HOME/live/output
 chmod +x $HOME/live/debian-mate-gparted-live-${_datestamp}.iso
 cp $HOME/live/debian-mate-gparted-live-${_datestamp}.iso output/
 sha256sum $HOME/live/debian-mate-gparted-live-${_datestamp}.iso > output/debian-mate-gparted-live-${_datestamp}.iso.sha256
-md5sum $HOME/live/debian-mate-gparted-live-${_datestamp}.iso > output/debian-mate-gparted-live-${_datestamp}.iso.md5sum
+md5sum $HOME/live/debian-mate-gparted-live-${_datestamp}.iso > output/debian-mate-gparted-live-${_datestamp}.iso.md5
