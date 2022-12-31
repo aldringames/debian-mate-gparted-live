@@ -62,7 +62,10 @@ RUN apt-get install -qqy \
     systemd-sysv \
     pv \
     cgpt \
-    initramfs-tools && \
+    initramfs-tools \
+    parted \
+    xdiskusage \
+    testdisk && \
   apt-get install -qqy --no-install-recommends linux-image-amd64 && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
