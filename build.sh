@@ -96,8 +96,8 @@ echo "Copying ISO to the output/..."
 mkdir $HOME/live/output
 chmod +x $HOME/live/debian-mate-gparted-live-${_date}.iso
 cp $HOME/live/debian-mate-gparted-live-${_date}.iso output/
-sha256sum $HOME/live/debian-mate-gparted-live-${_date}.iso > output/debian-mate-gparted-live-${_date}.iso.sha256
-md5sum $HOME/live/debian-mate-gparted-live-${_date}.iso > output/debian-mate-gparted-live-${_date}.iso.md5
+sha256sum debian-mate-gparted-live-${_date}.iso > output/debian-mate-gparted-live-${_date}.iso.sha256
+md5sum debian-mate-gparted-live-${_date}.iso > output/debian-mate-gparted-live-${_date}.iso.md5
 echo "Cleaning chroot files..."
 rm -rf chroot
 echo "DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
