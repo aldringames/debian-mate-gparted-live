@@ -26,36 +26,45 @@ _check_memory_init_process () {
 _init_process () {
         clear
         echo "Please wait..."
+	sleep 5
         exec /sbin/init
 }
 
 _menu () {
-	clear
-	echo ""
-	echo "Debian MATE GParted Live OCS Memtester Menu"
-	echo ""
-	echo "    (1) Memtester"
-	echo "        Start memory checking only"
-	echo ""
-        echo "    (2) Memtester and Init"
-        echo "        Start memory checking and run init process"
-	echo ""
-        echo "    (3) Init"
-        echo "        Run init process"
-	echo ""
-	printf "Choose option: "
-	read _choice
-	if [ "$_choice" = "1" ]; then
-		_check_memory
-	elif [ "$_choice" = "2" ]; then
-		_check_memory_init_process
-	elif [ "$_choice" = "3" ]; then
-                _init_process
-	else
-		echo "Invalid option: $_choice"
-		sleep 1
-		_menu
-	fi
+        while true; do
+		exec 3>&1
+		selection=$(dialog \
+			--backtitle "System Information" \
+			--title "Menu" \
+			--clear \
+			--no-collapse \
+			--menu "Please select:" 0 0 4 \
+			"1" "Display System Information" \
+			"2" "Display Disk Space" \
+			"3" "Display Home Space Utilization" \
+			2>&1 1>&3)
+		exit_status=$?
+		exec 3>&-
+		case $exit_status in
+			$DIALOG_CANCEL)
+				clear
+				reboot
+				exit
+				;;
+			$DIALOG_ESC)
+				clear
+				reboot
+				;;
+		esac
+		case $selection in
+			1)
+				_check_memory ;;
+			2)
+				_check_memory_init_process ;;
+			3)
+				_init_process ;;
+		esac
+	done
 }
 
 _menu

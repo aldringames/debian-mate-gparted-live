@@ -65,7 +65,8 @@ RUN apt-get install -qqy \
     initramfs-tools \
     parted \
     xdiskusage \
-    testdisk && \
+    testdisk \
+    dialog && \
   apt-get install -qqy --no-install-recommends linux-image-amd64 && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
