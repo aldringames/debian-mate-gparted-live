@@ -34,27 +34,22 @@ _menu () {
         while true; do
 		exec 3>&1
 		selection=$(dialog \
-			--backtitle "System Information" \
-			--title "Menu" \
+			--backtitle "Debian MATE GParted Live" \
+			--title "OCS Memtester Menu" \
 			--clear \
 			--no-collapse \
-			--menu "Please select:" 0 0 4 \
-			"1" "Display System Information" \
-			"2" "Display Disk Space" \
-			"3" "Display Home Space Utilization" \
+			--menu "The system in Debian MATE GParted Live can handle from your PC." 0 0 4 \
+			"1" "Memory test" \
+			"2" "Memory test and init process" \
+			"3" "Init process" \
 			2>&1 1>&3)
 		exit_status=$?
 		exec 3>&-
 		case $exit_status in
 			$DIALOG_CANCEL)
-				clear
-				reboot
-				exit
-				;;
+				_init_process ;;
 			$DIALOG_ESC)
-				clear
-				reboot
-				;;
+				_init_process ;;
 		esac
 		case $selection in
 			1)
