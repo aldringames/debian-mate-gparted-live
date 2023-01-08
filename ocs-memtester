@@ -1,31 +1,25 @@
 #!/bin/bash -e
-_check_memory () {
+_memtester_run () {
 	clear
-	echo "Check memory for 128M..."
-	memtester 128M 5 &> /dev/null
-	echo "Check memory for 256M..."
-        memtester 256M 5 &> /dev/null
-	echo "Check memory for 512M..."
-        memtester 512M 5 &> /dev/null
-	echo "Check memory for 1024M..."
-        memtester 1024M 5 &> /dev/null
-	echo "Check memory for 2048M..."
-        memtester 2048M 5 &> /dev/null
+        echo "Check memory for 128M..."
+        memtester 128M 1 &> /dev/null
+        echo "Check memory for 256M..."
+	memtester 256M 1 &> /dev/null
+        echo "Check memory for 512M..."
+        memtester 512M 1 &> /dev/null
+        echo "Check memory for 1024M..."
+        memtester 1024M 1 &> /dev/null
+        echo "Check memory for 2048M..."
+        memtester 2048M 1 &> /dev/null
+}
+
+_check_memory () {
+	_memtester_run
 	_menu
 }
 
 _check_memory_init_process () {
-        clear
-        echo "Check memory for 128M..."
-        memtester 128M 5 &> /dev/null
-        echo "Check memory for 256M..."
-        memtester 256M 5 &> /dev/null
-        echo "Check memory for 512M..."
-        memtester 512M 5 &> /dev/null
-        echo "Check memory for 1024M..."
-        memtester 1024M 5 &> /dev/null
-        echo "Check memory for 2048M..."
-        memtester 2048M 5 &> /dev/null
+        _memtester_run
         _init_process
 }
 

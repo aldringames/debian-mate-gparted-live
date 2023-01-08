@@ -71,4 +71,5 @@ RUN apt-get install -qqy \
   rm -rf /var/lib/apt/lists/*
 
 RUN rm /etc/machine-id && \
-  dpkg --get-selections | tee /filesystem.packages
+  dpkg --get-selections | tee /filesystem.packages && \
+  localedef -i en_US -f UTF-8 en_US.UTF-8
