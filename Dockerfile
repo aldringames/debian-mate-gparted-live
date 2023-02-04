@@ -74,6 +74,7 @@ RUN apt-get install -qqy \
 
 RUN rm /etc/machine-id && \
   dpkg --get-selections | tee /filesystem.packages && \
-  localedef -i en_US -f UTF-8 en_US.UTF-8
+  localedef -i en_US -f UTF-8 en_US.UTF-8 && \
+  systemctl enable lightdm
  
  RUN echo "root:toor" | chpasswd
