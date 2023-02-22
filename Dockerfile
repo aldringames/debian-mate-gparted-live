@@ -14,20 +14,19 @@ RUN apt-get update -qqy && \
     curl \
     wget \
     network-manager && \
-  sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+  sed -i -e 's/# en_US.UTF-8 UTF-8/en_PH.UTF-8 UTF-8/' /etc/locale.gen && \
   dpkg-reconfigure --frontend=noninteractive locales && \
-  update-locale LANG=en_US.UTF-8 && \
-  touch /etc/netplan && \
+  update-locale LANG=en_PH.UTF-8 && \
   dpkg-reconfigure network-manager
 
-RUN export LANG=en_US && \
-  export LC_ALL=en_US.UTF-8
+RUN export LANG=en_PH && \
+  export LC_ALL=en_PH.UTF-8
 
 RUN apt-get install -qqy \
     mate-desktop-environment \
     mate-desktop-environment-extras \
-    xorg \
-    xinit \
+    firefox \
+    chromium \
     gparted \
     live-boot \
     epiphany-browser \
@@ -71,9 +70,11 @@ RUN apt-get install -qqy \
     lightdm-gtk-greeter && \
   apt-get install -qqy --no-install-recommends linux-image-amd64 && \
   apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+  rm -rf /var/lib/apt/lists/* && \
+  useradd -s /bin/bash -m intrap && \
+  echo "intrap ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers.d/intrap
 
 RUN rm /etc/machine-id && \
   dpkg --get-selections | tee /filesystem.packages && \
-  localedef -i en_US -f UTF-8 en_US.UTF-8 && \
+  localedef -i en_PH -f UTF-8 en_PH.UTF-8 && \
   systemctl enable lightdm
