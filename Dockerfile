@@ -1,4 +1,4 @@
-FROM debian:sid
+FROM debian:stable
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -67,7 +67,8 @@ RUN apt-get install -qqy \
     xdiskusage \
     testdisk \
     dialog \
-    lightdm && \
+    lightdm \
+    lightdm-gtk-greeter && \
   apt-get install -qqy --no-install-recommends linux-image-amd64 && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
@@ -76,5 +77,3 @@ RUN rm /etc/machine-id && \
   dpkg --get-selections | tee /filesystem.packages && \
   localedef -i en_US -f UTF-8 en_US.UTF-8 && \
   systemctl enable lightdm
- 
- RUN echo "root:toor" | chpasswd
