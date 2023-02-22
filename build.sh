@@ -2,7 +2,7 @@
 WORK=$HOME/work/debian-mate-gparted-live/debian-mate-gparted-live
 mkdir -p $HOME/live/chroot
 echo "Building docker container id..."
-docker build -t debian-intrap . &> /dev/null
+docker build -t debian-intrap .
 CID=$(docker create debian-intrap)
 echo "Extracting files from docker container id export..."
 docker export $CID | tar -xf- -C $HOME/live/chroot &> /dev/null
