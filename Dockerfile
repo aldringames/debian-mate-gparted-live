@@ -25,7 +25,7 @@ RUN export LANG=en_PH && \
 RUN apt-get install -qqy \
     mate-desktop-environment \
     mate-desktop-environment-extras \
-    firefox \
+    firefox-esr \
     chromium \
     gparted \
     live-boot \
@@ -33,6 +33,7 @@ RUN apt-get install -qqy \
     systemd-sysv \
     emacs \
     geany \
+    htop \
     bash-completion \
     cifs-utils \
     dbus-x11 \
